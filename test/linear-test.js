@@ -1,3 +1,5 @@
+import NanoDate from 'nano-date'
+
 var tape = require("tape"),
     scale = require("../"),
     roundEpsilon = require("./roundEpsilon");
@@ -99,7 +101,7 @@ tape("linear.invert(y) maps an empty range to the middle of the domain", functio
 
 tape("linear.invert(y) coerces range values to numbers", function(test) {
   test.equal(scale.scaleLinear().range(["0", "2"]).invert("1"), 0.5);
-  test.equal(scale.scaleLinear().range([new Date(1990, 0, 1), new Date(1991, 0, 1)]).invert(new Date(1990, 6, 2, 13)), 0.5);
+  test.equal(scale.scaleLinear().range([new NanoDate(1990, 0, 1), new NanoDate(1991, 0, 1)]).invert(new NanoDate(1990, 6, 2, 13)), 0.5);
   test.end();
 });
 
@@ -117,7 +119,7 @@ tape("linear.domain(domain) accepts an array of numbers", function(test) {
 });
 
 tape("linear.domain(domain) coerces domain values to numbers", function(test) {
-  test.deepEqual(scale.scaleLinear().domain([new Date(1990, 0, 1), new Date(1991, 0, 1)]).domain(), [631180800000, 662716800000]);
+  test.deepEqual(scale.scaleLinear().domain([new NanoDate(1990, 0, 1), new NanoDate(1991, 0, 1)]).domain(), [631180800000, 662716800000]);
   test.deepEqual(scale.scaleLinear().domain(["0.0", "1.0"]).domain(), [0, 1]);
   test.deepEqual(scale.scaleLinear().domain([new Number(0), new Number(1)]).domain(), [0, 1]);
   test.end();

@@ -5,6 +5,8 @@ import continuous, {copy} from "./continuous.js";
 import {initRange} from "./init.js";
 import nice from "./nice.js";
 
+import NanoDate from 'nano-date'
+
 var durationSecond = 1000,
     durationMinute = durationSecond * 60,
     durationHour = durationMinute * 60,
@@ -14,11 +16,11 @@ var durationSecond = 1000,
     durationYear = durationDay * 365;
 
 function date(t) {
-  return new Date(t);
+  return new NanoDate(t);
 }
 
 function number(t) {
-  return t instanceof Date ? +t : +new Date(+t);
+  return t instanceof NanoDate ? +t : +new NanoDate(+t);
 }
 
 export function calendar(year, month, week, day, hour, minute, second, millisecond, format) {
@@ -56,7 +58,30 @@ export function calendar(year, month, week, day, hour, minute, second, milliseco
     [  year,  1,      durationYear  ]
   ];
 
+  // function tickFormat(date) {
+  //   return (second(date) < date ? formatMillisecond
+  //       : minute(date) < date ? formatSecond
+  //       : hour(date) < date ? formatMinute
+  //       : day(date) < date ? formatHour
+  //       : month(date) < date ? (week(date) < date ? formatDay : formatWeek)
+  //       : year(date) < date ? formatMonth
+  //       : formatYear)(date);
+  // }
+
+
+  const zeroPad = (num, places) => {
+    const zero = places - num.toString().length + 1;
+    return Array(+(zero > 0 && zero)).join("0") + num;
+  };
+
   function tickFormat(date) {
+    console.log(date)
+    if (date.getMilliseconds() !== 0 || date.getMicroseconds() !== 0 || date.getNanoseconds() !== 0) {
+      return "."
+          .concat(zeroPad(date.getMilliseconds(), 3))
+          .concat(zeroPad(date.getMicroseconds(), 3))
+          .concat(zeroPad(date.getNanoseconds(), 3));
+    }
     return (second(date) < date ? formatMillisecond
         : minute(date) < date ? formatSecond
         : hour(date) < date ? formatMinute
@@ -94,7 +119,7 @@ export function calendar(year, month, week, day, hour, minute, second, milliseco
   }
 
   scale.invert = function(y) {
-    return new Date(invert(y));
+    return new NanoDate(invert(y));
   };
 
   scale.domain = function(_) {
@@ -132,5 +157,5 @@ export function calendar(year, month, week, day, hour, minute, second, milliseco
 }
 
 export default function() {
-  return initRange.apply(calendar(timeYear, timeMonth, timeWeek, timeDay, timeHour, timeMinute, timeSecond, timeMillisecond, timeFormat).domain([new Date(2000, 0, 1), new Date(2000, 0, 2)]), arguments);
+  return initRange.apply(calendar(timeYear, timeMonth, timeWeek, timeDay, timeHour, timeMinute, timeSecond, timeMillisecond, timeFormat).domain([new NanoDate(2000, 0, 1), new NanoDate(2000, 0, 2)]), arguments);
 }

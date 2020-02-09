@@ -1,3 +1,5 @@
+import NanoDate from 'nano-date'
+
 var tape = require("tape"),
     format = require("d3-format"),
     interpolate = require("d3-interpolate"),
@@ -22,15 +24,15 @@ tape("scaleLog() has the expected defaults", function(test) {
 });
 
 tape("log.domain(…) coerces values to numbers", function(test) {
-  var x = scale.scaleLog().domain([new Date(1990, 0, 1), new Date(1991, 0, 1)]);
+  var x = scale.scaleLog().domain([new NanoDate(1990, 0, 1), new NanoDate(1991, 0, 1)]);
   test.equal(typeof x.domain()[0], "number");
   test.equal(typeof x.domain()[1], "number");
-  test.inDelta(x(new Date(1989,  9, 20)), -0.2061048);
-  test.inDelta(x(new Date(1990,  0,  1)),  0.0000000);
-  test.inDelta(x(new Date(1990,  2, 15)),  0.2039385);
-  test.inDelta(x(new Date(1990,  4, 27)),  0.4057544);
-  test.inDelta(x(new Date(1991,  0,  1)),  1.0000000);
-  test.inDelta(x(new Date(1991,  2, 15)),  1.1942797);
+  test.inDelta(x(new NanoDate(1989,  9, 20)), -0.2061048);
+  test.inDelta(x(new NanoDate(1990,  0,  1)),  0.0000000);
+  test.inDelta(x(new NanoDate(1990,  2, 15)),  0.2039385);
+  test.inDelta(x(new NanoDate(1990,  4, 27)),  0.4057544);
+  test.inDelta(x(new NanoDate(1991,  0,  1)),  1.0000000);
+  test.inDelta(x(new NanoDate(1991,  2, 15)),  1.1942797);
   x.domain(["1", "10"]);
   test.equal(typeof x.domain()[0], "number");
   test.equal(typeof x.domain()[1], "number");
@@ -160,8 +162,8 @@ tape("log.invert(y) maps a number y to a number x", function(test) {
 tape("log.invert(y) coerces y to number", function(test) {
   var x = scale.scaleLog().range(["0", "2"]);
   test.inDelta(x.invert("1"), 3.1622777);
-  x.range([new Date(1990, 0, 1), new Date(1991, 0, 1)]);
-  test.inDelta(x.invert(new Date(1990, 6, 2, 13)), 3.1622777);
+  x.range([new NanoDate(1990, 0, 1), new NanoDate(1991, 0, 1)]);
+  test.inDelta(x.invert(new NanoDate(1990, 6, 2, 13)), 3.1622777);
   x.range(["#000", "#fff"]);
   test.ok(Number.isNaN(x.invert("#999")));
   test.end();

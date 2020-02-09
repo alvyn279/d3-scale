@@ -1,3 +1,5 @@
+import NanoDate from 'nano-date'
+
 var tape = require("tape"),
     scale = require("../");
 
@@ -44,8 +46,8 @@ tape("identity.invert(y) is the identity function", function(test) {
 tape("identity.invert(y) coerces range value to numbers", function(test) {
   var s = scale.scaleIdentity().range(["0", "2"]);
   test.equal(s.invert("1"), 1);
-  s.range([new Date(1990, 0, 1), new Date(1991, 0, 1)]);
-  test.equal(s.invert(new Date(1990, 6, 2, 13)), +new Date(1990, 6, 2, 13));
+  s.range([new NanoDate(1990, 0, 1), new NanoDate(1991, 0, 1)]);
+  test.equal(s.invert(new NanoDate(1990, 6, 2, 13)), +new NanoDate(1990, 6, 2, 13));
   s.range(["#000", "#fff"]);
   test.ok(isNaN(s.invert("#999")));
   test.end();
@@ -77,13 +79,13 @@ tape("identity.domain() defaults to [0, 1]", function(test) {
 });
 
 tape("identity.domain() coerces values to numbers", function(test) {
-  var s = scale.scaleIdentity().domain([new Date(1990, 0, 1), new Date(1991, 0, 1)]);
+  var s = scale.scaleIdentity().domain([new NanoDate(1990, 0, 1), new NanoDate(1991, 0, 1)]);
   test.equal(typeof s.domain()[0], "number");
   test.equal(typeof s.domain()[1], "number");
-  test.equal(s.domain()[0], +new Date(1990, 0, 1));
-  test.equal(s.domain()[1], +new Date(1991, 0, 1));
-  test.equal(typeof s(new Date(1989, 9, 20)), "number");
-  test.equal(s(new Date(1989, 9, 20)), +new Date(1989, 9, 20));
+  test.equal(s.domain()[0], +new NanoDate(1990, 0, 1));
+  test.equal(s.domain()[1], +new NanoDate(1991, 0, 1));
+  test.equal(typeof s(new NanoDate(1989, 9, 20)), "number");
+  test.equal(s(new NanoDate(1989, 9, 20)), +new NanoDate(1989, 9, 20));
   s.domain(["0", "1"]);
   test.equal(typeof s.domain()[0], "number");
   test.equal(typeof s.domain()[1], "number");
@@ -92,13 +94,13 @@ tape("identity.domain() coerces values to numbers", function(test) {
   test.equal(typeof s.domain()[0], "number");
   test.equal(typeof s.domain()[1], "number");
   test.equal(s(0.5), 0.5);
-  s.range([new Date(1990, 0, 1), new Date(1991, 0, 1)]);
+  s.range([new NanoDate(1990, 0, 1), new NanoDate(1991, 0, 1)]);
   test.equal(typeof s.range()[0], "number");
   test.equal(typeof s.range()[1], "number");
-  test.equal(s.range()[0], +new Date(1990, 0, 1));
-  test.equal(s.range()[1], +new Date(1991, 0, 1));
-  test.equal(typeof s(new Date(1989, 9, 20)), "number");
-  test.equal(s(new Date(1989, 9, 20)), +new Date(1989, 9, 20));
+  test.equal(s.range()[0], +new NanoDate(1990, 0, 1));
+  test.equal(s.range()[1], +new NanoDate(1991, 0, 1));
+  test.equal(typeof s(new NanoDate(1989, 9, 20)), "number");
+  test.equal(s(new NanoDate(1989, 9, 20)), +new NanoDate(1989, 9, 20));
   s.range(["0", "1"]);
   test.equal(typeof s.range()[0], "number");
   test.equal(typeof s.range()[1], "number");

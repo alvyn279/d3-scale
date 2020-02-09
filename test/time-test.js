@@ -1,3 +1,5 @@
+import NanoDate from 'nano-date'
+
 var tape = require("tape"),
     interpolate = require("d3-interpolate"),
     time = require("d3-time"),
@@ -133,7 +135,7 @@ tape("time.copy() isolates changes to clamping", function(test) {
 
 tape("time.clamp(true).invert(value) never returns a value outside the domain", function(test) {
   var x = scale.scaleTime().clamp(true);
-  test.ok(x.invert(0) instanceof Date);
+  test.ok(x.invert(0) instanceof NanoDate);
   test.ok(x.invert(0) !== x.invert(0)); // returns a distinct copy
   test.equal(+x.invert(-1), +x.domain()[0]);
   test.equal(+x.invert(0), +x.domain()[0]);
