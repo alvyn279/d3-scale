@@ -3,6 +3,7 @@ import {initRange} from "./init.js";
 import ordinal from "./ordinal.js";
 
 export default function band() {
+  console.log('TAAAAAA_MEEERRREEEEEEEEEEE')
   var scale = ordinal().unknown(undefined),
       domain = scale.domain,
       ordinalRange = scale.range,

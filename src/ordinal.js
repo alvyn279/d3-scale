@@ -3,6 +3,7 @@ import {initRange} from "./init.js";
 export const implicit = Symbol("implicit");
 
 export default function ordinal() {
+  console.log('TAAAAAA_MEEERRREEEEEEEEEEE 2')
   var index = new Map(),
       domain = [],
       range = [],
@@ -29,7 +30,8 @@ export default function ordinal() {
   };
 
   scale.range = function(_) {
-    return arguments.length ? (range = Array.from(_), scale) : range.slice();
+    console.log('here', _)
+    return arguments.length ? (range = _ ? Array.from(_) : [], scale) : range.slice();
   };
 
   scale.unknown = function(_) {

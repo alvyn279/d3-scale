@@ -16,10 +16,11 @@ var durationSecond = 1000,
     durationYear = durationDay * 365;
 
 function date(t) {
-  return new NanoDate(t);
+  return t ? new NanoDate(t) : new NanoDate();
 }
 
 function number(t) {
+  // t -> NanoDate | 900
   return t instanceof NanoDate ? +t : +new NanoDate(+t);
 }
 
@@ -75,12 +76,19 @@ export function calendar(year, month, week, day, hour, minute, second, milliseco
   };
 
   function tickFormat(date) {
-    console.log(date)
-    if (date.getMilliseconds() !== 0 || date.getMicroseconds() !== 0 || date.getNanoseconds() !== 0) {
+    date = new NanoDate(date)
+    if (date.getNanoseconds() !== 0) {
       return "."
           .concat(zeroPad(date.getMilliseconds(), 3))
           .concat(zeroPad(date.getMicroseconds(), 3))
           .concat(zeroPad(date.getNanoseconds(), 3));
+    } else if (date.getMicroseconds() !== 0) {
+      return "."
+          .concat(zeroPad(date.getMilliseconds(), 3))
+          .concat(zeroPad(date.getMicroseconds(), 3))
+    } else if (date.getMilliseconds() !== 0) {
+      return "."
+          .concat(zeroPad(date.getMilliseconds(), 3))
     }
     return (second(date) < date ? formatMillisecond
         : minute(date) < date ? formatSecond
